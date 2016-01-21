@@ -6,14 +6,17 @@ void replay_both_scalers(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t Max
   //
   
   //Int_t RunNumber=52949;
-  if (RunNumber == 50017) {
-  char* RunFileNamePattern="daq04_%d.log.0";
-  } else {
-    // char* RunFileNamePattern="/group/hallc/gabriel/work/daq03_%d.log.0";
-    // char* RunFileNamePattern="/cache/mss/hallc/daq04/raw/daq04_%d.log.0";
-    char* RunFileNamePattern="/Users/brash/Dropbox/Research/daq04/daq04_%d.log.0";
-    //      char* RunFileNamePattern="/home/zahmed/fAnalyzer/analysis/replay/RawData/daq04_%d.log.0";
+  
+  TString data_dir = "/home/brash/Research/daq04";
+  TString experiment = "daq04";
+  TString RunFileNamePattern = data_dir + "/" + experiment + "_%d.log.0";
+  TString run_file = data_dir + "/" + experiment + Form("_%d.log.0",RunNumber);
+
+  if ( gSystem->AccessPathName(run_file) ) {
+   Error("replay_both_scalers.C", "Input file does not exist: %s", run_file.Data() );
+   return 1;
   }
+
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
   gHcParms->AddString("g_ctp_database_filename", "jan05.database");
   
@@ -52,7 +55,7 @@ void replay_both_scalers(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t Max
   HMS->AddDetector( aerogel );
   //
   THcScalerEvtHandler *hscaler = new THcScalerEvtHandler("HS","HC scaler event type 0");
-  hscaler->SetDebugFile("HScaler.txt");
+  hscaler->SetDebugFile((char *)"HScaler.txt");
   gHaEvtHandlers->Add (hscaler);
   //
     THaApparatus* SOS = new THcHallCSpectrometer("S","SOS");
@@ -85,9 +88,11 @@ void replay_both_scalers(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t Max
   
   // Define the run(s) that we want to analyze.
   // We just set up one, but this could be many.
-  char RunFileName[100];
-  sprintf(RunFileName,RunFileNamePattern,RunNumber);
-  THaRun* run = new THaRun(RunFileName);
+  //char RunFileName[100];
+  //sprintf(RunFileName,RunFileNamePattern,RunNumber);
+  //THaRun* run = new THaRun(RunFileName);
+  
+  THaRun* run = new THaRun(run_file, "DAQ04 Data");
 
   // Eventually need to learn to skip over, or properly analyze
   // the pedestal events
