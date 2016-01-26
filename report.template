@@ -296,9 +296,9 @@ anyhs2y  eff = {anyhs2y.npassed/(hmscoin_event.npassed+.0001):%5.3f}  BAD = .99
 
          I_avg           Q_tot             Q_tot
       (microAmps)   (microCoulombs)   (microAmp-hours)
-BCM1 
-BCM2 
-BCM3 
+BCM1 {gbcm1_gain*(HSsBCM1/HShCLOCK*1.0e6-gbcm1_offset):%10.3f} {gbcm1_gain*(HSsBCM1/HShCLOCK*1.0e6-gbcm1_offset)*HShCLOCK/1.0e6:%10.3f} {gbcm1_gain*(HSsBCM1/HShCLOCK*1.0e6-gbcm1_offset)*HShCLOCK/1.0e6/3600.0:%10.3f}  
+BCM2 {gbcm2_gain*(HSsBCM2/HShCLOCK*1.0e6-gbcm2_offset):%10.3f} {gbcm2_gain*(HSsBCM2/HShCLOCK*1.0e6-gbcm2_offset)*HShCLOCK/1.0e6:%10.3f} {gbcm2_gain*(HSsBCM2/HShCLOCK*1.0e6-gbcm2_offset)*HShCLOCK/1.0e6/3600.0:%10.3f} 
+BCM3 {gbcm3_gain*(HSsUNUSED7/HShCLOCK*1.0e6-gbcm3_offset):%10.3f} {gbcm3_gain*(HSsUNUSED7/HShCLOCK*1.0e6-gbcm3_offset)*HShCLOCK/1.0e6:%10.3f} {gbcm3_gain*(HSsUNUSED7/HShCLOCK*1.0e6-gbcm3_offset)*HShCLOCK/1.0e6/3600.0:%10.3f}
 
 hpretriggers  = 
 htriggers     = 

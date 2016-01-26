@@ -1,5 +1,5 @@
   THcAnalyzer* analyzer = new THcAnalyzer;
-void replay_both_scalers(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t MaxEventToReplay=10000000) {
+void replay_root6(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t MaxEventToReplay=10000000) {
 
   //
   //  Steering script to test hodoscope decoding
@@ -49,7 +49,7 @@ void replay_both_scalers(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t Max
   HMS->AddDetector( new THcHodoscope("hod", "Hodoscope" ));
   HMS->AddDetector( new THcShower("cal", "Shower" ));
   THcCherenkov* cherenkov = new THcCherenkov("cher", "Gas Cerenkov" );
-   HMS->AddDetector( cherenkov );
+  HMS->AddDetector( cherenkov );
   HMS->AddDetector( new THcDC("dc", "Drift Chambers" ));
   THcAerogel* aerogel = new THcAerogel("aero", "Aerogel Cerenkov" );
   HMS->AddDetector( aerogel );
@@ -58,9 +58,10 @@ void replay_both_scalers(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t Max
   hscaler->SetDebugFile((char *)"HScaler.txt");
   gHaEvtHandlers->Add (hscaler);
   //
-    THaApparatus* SOS = new THcHallCSpectrometer("S","SOS");
-   gHaApps->Add( SOS );
-  // Add detectors
+  THaApparatus* SOS = new THcHallCSpectrometer("S","SOS");
+  gHaApps->Add( SOS );
+  
+  //  Add detectors
   SOS->AddDetector( new THcHodoscope("hod", "Hodoscope" ));
   SOS->AddDetector( new THcShower("cal", "Shower" ));
   SOS->AddDetector( new THcCherenkov("cher", "Gas Cerenkov" ));
@@ -72,45 +73,45 @@ void replay_both_scalers(Int_t RunNumber=52949, Int_t FirstToReplay=1, Int_t Max
 
   // setup physics
   gHaPhysics->Add( new THaGoldenTrack( "H.gold", "HMS Golden Track", "H" ));
-  gHaPhysics->Add( new THaGoldenTrack( "S.gold", "SOSS Golden Track", "S" ));
+  //gHaPhysics->Add( new THaGoldenTrack( "S.gold", "SOSS Golden Track", "S" ));
   // Set up the analyzer - we use the standard one,
   // but this could be an experiment-specific one as well.
   // The Analyzer controls the reading of the data, executes
   // tests/cuts, loops over Acpparatus's and PhysicsModules,
   // and executes the output routines.
-  //  THcAnalyzer* analyzer = new THcAnalyzer;
+  //      THcAnalyzer* analyzer = new THcAnalyzer;
    
 
   // A simple event class to be output to the resulting tree.
   // Creating your own descendant of THaEvent is one way of
   // defining and controlling the output.
-  THaEvent* event = new THaEvent;
+  //THaEvent* event = new THaEvent;
   
   // Define the run(s) that we want to analyze.
   // We just set up one, but this could be many.
-  //char RunFileName[100];
-  //sprintf(RunFileName,RunFileNamePattern,RunNumber);
-  //THaRun* run = new THaRun(RunFileName);
+  ////char RunFileName[100];
+  ////sprintf(RunFileName,RunFileNamePattern,RunNumber);
+  ////THaRun* run = new THaRun(RunFileName);
   
-  THaRun* run = new THaRun(run_file, "DAQ04 Data");
+  //THaRun* run = new THaRun(run_file, "DAQ04 Data");
 
   // Eventually need to learn to skip over, or properly analyze
   // the pedestal events
-  run->SetEventRange(FirstToReplay,MaxEventToReplay);//  Physics Event number, does not
+  //run->SetEventRange(FirstToReplay,MaxEventToReplay);//  Physics Event number, does not
                                 // include scaler or control events
 
   // Define the analysis parameters
-  analyzer->SetCountMode( 2 ); // 0 = counter is # of physics triggers
+  //analyzer->SetCountMode( 2 ); // 0 = counter is # of physics triggers
 			       //1 = counter is # of all decode reads 
                                //2= counter is event number
-  analyzer->SetEvent( event );
-  analyzer->SetOutFile(Form("Rootfiles/replay_both_%05d.root",RunNumber));
-  analyzer->SetOdefFile("output_replay_both.def");
-  analyzer->SetCutFile("cuts_replay_both.def");        // optional
+  //analyzer->SetEvent( event );
+  //analyzer->SetOutFile(Form("Rootfiles/replay_both_%05d.root",RunNumber));
+  //analyzer->SetOdefFile("output_replay_both.def");
+  //analyzer->SetCutFile("cuts_replay_both.def");        // optional
   
   // File to record cuts accounting information
   //  analyzer->SetSummaryFile("summary_example.log"); // optional
   
-  analyzer->Process(run);     // start the actual analysis
-  analyzer->PrintReport("report.template",Form("replay_both_%05d.report",RunNumber)); 
+  //analyzer->Process(run);     // start the actual analysis
+  //analyzer->PrintReport("report.template",Form("replay_both_%05d.report",RunNumber)); 
 }
